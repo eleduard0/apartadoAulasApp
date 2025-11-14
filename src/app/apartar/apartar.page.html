@@ -1,0 +1,56 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" style="color: #01907e;"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title style="color: #01907e;">Nueva reserva</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="reserva-page ion-padding" mode="ios">
+  <div class="container">
+
+    <h1 class="title">Generar nueva reserva</h1>
+    <p class="subtitle">Completa los siguientes datos para crear tu reserva</p>
+
+    <ion-card class="form-card">
+
+      <ion-item lines="none">
+        <!-- <ion-label position="floating">Aula</ion-label> -->
+        <ion-select interface="popover" placeholder="Aula">
+          <ion-select-option value="lab1">Lab Idiomas 1</ion-select-option>
+          <ion-select-option value="lab2">Lab Idiomas 2</ion-select-option>
+          <ion-select-option value="aatic">AATIC</ion-select-option>
+          <ion-select-option value="aula-21">CDS</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <!-- <ion-label position="floating">Fecha</ion-label> -->
+        <ion-datetime presentation="date" prefer-wheel="false"></ion-datetime>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Hora inicio</ion-label>
+        <ion-datetime presentation="time"></ion-datetime>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Hora fin</ion-label>
+        <ion-datetime presentation="time"></ion-datetime>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Motivo</ion-label>
+        <ion-textarea auto-grow="true"></ion-textarea>
+      </ion-item>
+
+    </ion-card>
+
+    <ion-button expand="block" class="btn-reservar">
+      Crear reserva
+    </ion-button>
+
+  </div>
+</ion-content>

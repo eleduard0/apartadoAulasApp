@@ -145,3 +145,9 @@
    
   }
 }
+.container {
+  width: 100%;
+  max-width: 900px; /* Ajustable */
+  margin: 0 auto;
+  padding: 0 16px; /* Para que no pegue a los bordes */
+}

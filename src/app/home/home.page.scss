@@ -1,0 +1,147 @@
+.dashboard-page {
+  --background: #e6f6f3;
+}
+
+.welcome-section {
+  margin-top: 20px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #016a5b;
+
+    span {
+      color: #01907e;
+    }
+  }
+
+  p {
+    font-size: 14px;
+    color: #45534f;
+    margin-top: 4px;
+  }
+}
+
+.stats-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    min-width: 200px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+    ion-icon {
+      font-size: 32px;
+      color: #01907e;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #1f2d29;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      color: #45534f;
+    }
+  }
+}
+
+.section-title {
+  margin-top: 25px;
+
+  h2 {
+    font-size: 18px;
+    color: #016a5b;
+    font-weight: bold;
+  }
+}
+
+.next-bookings {
+  margin-top: 10px;
+
+  .booking-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+
+    ion-icon {
+      font-size: 30px;
+      color: #01907e;
+    }
+
+    .details {
+      flex: 1;
+
+      h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #1f2d29;
+      }
+
+      p {
+        margin: 3px 0 0;
+        font-size: 12px;
+        color: #45534f;
+      }
+    }
+
+    ion-badge {
+      font-size: 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+  }
+}
+
+.quick-actions {
+  margin-top: 25px;
+
+  h2 {
+    font-size: 18px;
+    color: #016a5b;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .action-card {
+    text-align: center;
+    padding: 20px 10px;
+    border-radius: 16px;
+    background: white;
+    //transition: 0.2s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+
+    ion-icon {
+      font-size: 40px;
+      color: #01907e;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 13px;
+      color: #45534f;
+      margin: 0;
+      font-weight: 500;
+    }
+
+   
+  }
+}

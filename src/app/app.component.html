@@ -1,33 +1,67 @@
-<ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+<ion-app mode="ios">
+  <ion-menu menuId="main-menu" content-id="main">
 
-          @for (p of appPages; track p; let i = $index) {
-            <ion-menu-toggle auto-hide="false">
-              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          }
-        </ion-list>
+    <ion-header>
+      <div class="header-background"></div>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+      <div class="header-icon">
+        <ion-img src="assets/iconuts.png"></ion-img>
+      </div>
+    </ion-header>
 
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
+    <ion-content>
+      <ion-list lines="none" class="lista">
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="">
+            <ion-icon name="home-outline"></ion-icon>
+            <ion-label>Inicio</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            <ion-label>Apartar Aula</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-label>Mis Reservas</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="">
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-label>Mi Perfil</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="">
+            <ion-icon name="help-circle-outline"></ion-icon>
+            <ion-label>Soporte</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+    </ion-content>
+
+    <ion-footer>
+      <ion-list lines="none">
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="login">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-footer>
+
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

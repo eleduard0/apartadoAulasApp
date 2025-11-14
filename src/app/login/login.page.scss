@@ -1,0 +1,151 @@
+.login-page {
+  --background: #01907e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+/* Contenedor del logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.logo-container ion-img {
+  width: 60%;
+  max-width: 200px;
+}
+
+/* Textos */
+.welcome-text {
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 22px;
+}
+
+.subtitle {
+  color: #e2e2e2;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Tarjeta del login */
+.login-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  color: white;
+  padding: 5px;
+}
+
+/* Inputs */
+.input-item {
+  --background: transparent;
+  --color: white;
+  margin-bottom: 12px;
+}
+
+.input-field {
+  color: white;
+}
+
+/* Botón iniciar sesión */
+.login-btn {
+  margin-top: 15px;
+  --background: #ffffff;
+  --background-activated: #dfdfdf;
+  color: #01907e;
+  font-weight: bold;
+}
+
+/* Botón registrarse */
+.register-btn {
+  margin-top: 10px;
+  --border-color: white;
+  --color: white;
+  --background-activated: rgba(255,255,255,0.3);
+}
+
+/* Google */
+.divider-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.divider-section p {
+  color: #e2e2e2;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.google-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.google-icon:hover {
+  transform: scale(1.12);
+}
+
+/* ======================= */
+/* RESPONSIVIDAD WEB */
+/* ======================= */
+
+/* Para pantallas medianas (tablets landscape / pantallas medianas) */
+@media (min-width: 768px) {
+  .welcome-text {
+    font-size: 26px;
+  }
+
+  .login-card {
+    max-width: 450px;
+    padding: 10px;
+  }
+
+  .logo-container ion-img {
+    width: 40%;
+    max-width: 180px;
+  }
+}
+
+/* Para pantallas grandes (laptops / desktops) */
+@media (min-width: 1024px) {
+  .login-page {
+    padding-top: 40px;
+  }
+
+  .logo-container ion-img {
+    width: 30%;
+    max-width: 160px;
+  }
+
+  .login-card {
+    max-width: 420px;
+    padding: 20px;
+  }
+
+  .welcome-text {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+}
+.card-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

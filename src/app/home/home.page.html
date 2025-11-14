@@ -1,0 +1,106 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu" style="color: #01907e;"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-img src="assets/iconuts2.png" style="width: 40%; margin-left: 10px;"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dashboard-page ion-padding" mode="ios">
+
+  <div class="welcome-section">
+    <h1>Bienvenido, <span>Mi compa</span></h1>
+    <p>Resumen de tu actividad y accesos rápidos</p>
+  </div>
+
+  <div class="stats-container">
+    <ion-card class="stat-card">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <div>
+        <h3>12</h3>
+        <p>Total de reservas</p>
+      </div>
+    </ion-card>
+
+    <ion-card class="stat-card">
+      <ion-icon name="time-outline"></ion-icon>
+      <div>
+        <h3>3</h3>
+        <p>Activas hoy</p>
+      </div>
+    </ion-card>
+
+    <ion-card class="stat-card">
+      <ion-icon name="school-outline"></ion-icon>
+      <div>
+        <h3>8</h3>
+        <p>Aulas disponibles</p>
+      </div>
+    </ion-card>
+  </div>
+
+  <div class="section-title">
+    <h2>Próximas reservas</h2>
+  </div>
+
+  <div class="next-bookings">
+    <ion-card class="booking-card">
+      <ion-icon name="business-outline"></ion-icon>
+      <div class="details">
+        <h3>Lab Idiomas 1</h3>
+        <p>Martes 11 nov • 10:00 - 12:00</p>
+      </div>
+      <ion-badge color="success">Confirmada</ion-badge>
+    </ion-card>
+
+    <ion-card class="booking-card">
+      <ion-icon name="business-outline"></ion-icon>
+      <div class="details">
+        <h3>AATIC</h3>
+        <p>Jueves 13 nov • 08:00 - 10:00</p>
+      </div>
+      <ion-badge color="warning">Pendiente</ion-badge>
+    </ion-card>
+  </div>
+
+  <div class="quick-actions">
+    <h2>Accesos rápidos</h2>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="action-card" routerLink="/reservar">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            <p>Nueva reserva</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-card class="action-card" routerLink="/historial">
+            <ion-icon name="time-outline"></ion-icon>
+            <p>Historial</p>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="action-card" routerLink="/perfil">
+            <ion-icon name="person-outline"></ion-icon>
+            <p>Perfil</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-card class="action-card" routerLink="/soporte">
+            <ion-icon name="help-circle-outline"></ion-icon>
+            <p>Soporte</p>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

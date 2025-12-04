@@ -10,7 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [ CommonModule, FormsModule, IonicModule, RouterLink, RouterLinkActive]
+  imports: [ CommonModule, FormsModule, IonicModule, RouterLink]
 })
 export class LoginPage implements OnInit {
 

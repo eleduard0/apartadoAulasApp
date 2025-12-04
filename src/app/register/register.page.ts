@@ -10,7 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLinkActive, RouterLink]
+  imports: [IonicModule, CommonModule, FormsModule,  RouterLink]
 })
 export class RegisterPage implements OnInit {
 

@@ -10,7 +10,7 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './apartar.page.html',
   styleUrls: ['./apartar.page.scss'],
   standalone: true,
-  imports: [RouterLink, IonicModule, CommonModule, FormsModule]
+  imports: [ IonicModule, CommonModule, FormsModule]
 })
 export class ApartarPage implements OnInit {
 

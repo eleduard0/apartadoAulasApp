@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class SolicitudApartadoService {
 
-  private apiUrl = 'https://localhost:7045/api/SolicitudApartado';
+  private apiUrl = 'https://apartadoaulasapi-2.onrender.com/api/SolicitudApartado';
 
   constructor(private http: HttpClient) {}
 

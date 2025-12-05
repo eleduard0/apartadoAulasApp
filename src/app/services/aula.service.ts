@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AulaService {
 
-  private apiUrl = 'https://localhost:7045/api/Aula';
+  private apiUrl = 'https://apartadoaulasapi-2.onrender.com/api/Aula';
 
   constructor(private http: HttpClient) {}
 

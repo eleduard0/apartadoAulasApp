@@ -9,7 +9,7 @@ import { LoginResponse } from '../models/login-response';
 })
 export class AuthService {
 
-  private apiUrl = 'https://localhost:7045/api/Auth/Login'; // 🔥 Cambia aquí tu URL base
+  private apiUrl = 'https://apartadoaulasapi-2.onrender.com/api/Auth/Login'; // 🔥 Cambia aquí tu URL base
 
   private userSubject = new BehaviorSubject<LoginResponse | null>(null);
   user$ = this.userSubject.asObservable();

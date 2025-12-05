@@ -9,6 +9,11 @@ import { AppComponent } from './app/app.component';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
 
+// 👇 IMPORTAR HTTP CLIENT
+import { provideHttpClient } from '@angular/common/http';
+import { isDevMode } from '@angular/core';
+import { provideServiceWorker } from '@angular/service-worker';
+
 // 👇 REGISTRA TODOS LOS ICONOS
 addIcons(allIcons);
 
@@ -17,5 +22,11 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
+
+    // 👇 AGREGAR ESTE PROVEEDOR
+    provideHttpClient(), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          })
   ],
 });

@@ -7,46 +7,56 @@
   <h2 class="welcome-text">Bienvenido</h2>
   <p class="subtitle">Inicia sesión para continuar</p>
 
-  <div class="card-wrapper">
-    <ion-card class="login-card" mode="ios">
-      <ion-card-content>
-        <ion-item lines="none" class="input-item">
-          <ion-input 
-            placeholder="Correo electrónico" 
-            type="email"
-            class="input-field"
-            required
-          ></ion-input>
-        </ion-item>
+  <form [formGroup]="form" (ngSubmit)="login()">
 
-        <ion-item lines="none" class="input-item">
-          <ion-input 
-            placeholder="Contraseña" 
-            type="password" 
-            class="input-field"
-            required
-          ></ion-input>
-        </ion-item>
+    <div class="card-wrapper">
+      <ion-card class="login-card" mode="ios">
+        <ion-card-content>
 
-        <ion-button expand="block" shape="round" class="login-btn" routerLink="/home">
-          Iniciar sesión
-        </ion-button>
+          <ion-item lines="none" class="input-item">
+            <ion-input
+              placeholder="Correo electrónico"
+              type="email"
+              formControlName="email"
+              class="input-field">
+            </ion-input>
+          </ion-item>
 
-        <ion-button 
-          expand="block" 
-          fill="outline" 
-          shape="round" 
-          class="register-btn"
-          routerLink="/register">
-          Registrarse
-        </ion-button>
-        <div class="divider-section">
-          <p>o iniciar sesión con:</p>
-          <img src="assets/google-icon.png" alt="Google" class="google-icon">
-        </div>
+          <ion-item lines="none" class="input-item">
+            <ion-input
+              placeholder="Contraseña"
+              type="password"
+              formControlName="password"
+              class="input-field">
+            </ion-input>
+          </ion-item>
 
-      </ion-card-content>
-    </ion-card>
-  </div>
+          <ion-button
+            expand="block"
+            shape="round"
+            class="login-btn"
+            type="submit">
+            {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            shape="round"
+            class="register-btn"
+            routerLink="/register">
+            Registrarse
+          </ion-button>
+
+          <div class="divider-section">
+            <p>o iniciar sesión con:</p>
+            <img src="assets/google-icon.png" alt="Google" class="google-icon">
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </form>
 
 </ion-content>

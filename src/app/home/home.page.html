@@ -10,16 +10,20 @@
 
 <ion-content class="dashboard-page ion-padding" mode="ios">
 <div class="container">
+
+  <!-- WELCOME -->
   <div class="welcome-section">
-    <h1>Bienvenido, <span>Mi compa</span></h1>
+    <h1>Bienvenido, <span>{{ nombre }}</span></h1>
     <p>Resumen de tu actividad y accesos rápidos</p>
   </div>
 
+  <!-- STATS -->
   <div class="stats-container">
+    
     <ion-card class="stat-card">
       <ion-icon name="calendar-outline"></ion-icon>
       <div>
-        <h3>12</h3>
+        <h3>{{ totalReservas }}</h3>
         <p>Total de reservas</p>
       </div>
     </ion-card>
@@ -27,11 +31,12 @@
     <ion-card class="stat-card">
       <ion-icon name="time-outline"></ion-icon>
       <div>
-        <h3>3</h3>
+        <h3>{{ totalActivasHoy }}</h3>
         <p>Activas hoy</p>
       </div>
     </ion-card>
 
+    <!-- Aulas disponibles (opcional puedes poner un número real luego) -->
     <ion-card class="stat-card">
       <ion-icon name="school-outline"></ion-icon>
       <div>
@@ -41,30 +46,37 @@
     </ion-card>
   </div>
 
+  <!-- PROXIMAS RESERVAS -->
   <div class="section-title">
     <h2>Próximas reservas</h2>
   </div>
 
   <div class="next-bookings">
-    <ion-card class="booking-card">
-      <ion-icon name="business-outline"></ion-icon>
-      <div class="details">
-        <h3>Lab Idiomas 1</h3>
-        <p>Martes 11 nov • 10:00 - 12:00</p>
-      </div>
-      <ion-badge color="success">Confirmada</ion-badge>
-    </ion-card>
 
-    <ion-card class="booking-card">
-      <ion-icon name="business-outline"></ion-icon>
-      <div class="details">
-        <h3>AATIC</h3>
-        <p>Jueves 13 nov • 08:00 - 10:00</p>
-      </div>
-      <ion-badge color="warning">Pendiente</ion-badge>
-    </ion-card>
+    <ng-container *ngIf="proximas.length > 0; else noBookings">
+      <ion-card class="booking-card" *ngFor="let r of proximas">
+        <ion-icon name="business-outline"></ion-icon>
+
+        <div class="details">
+          <h3>Aula {{ r.aulaId }}</h3>
+          <p>
+            {{ r.fecha }} • {{ r.horaInicio }} - {{ r.horaFin }}
+          </p>
+        </div>
+
+        <ion-badge [color]="r.estado == 'Confirmada' ? 'success' : 'warning'">
+          {{ r.estado }}
+        </ion-badge>
+      </ion-card>
+    </ng-container>
+
+    <ng-template #noBookings>
+      <p style="opacity: .6; margin-left: 10px;">No tienes próximas reservas.</p>
+    </ng-template>
+
   </div>
 
+  <!-- QUICK ACTIONS -->
   <div class="quick-actions">
     <h2>Accesos rápidos</h2>
 
@@ -102,5 +114,6 @@
       </ion-row>
     </ion-grid>
   </div>
+
 </div>
 </ion-content>

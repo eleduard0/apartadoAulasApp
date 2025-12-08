@@ -17,3 +17,8 @@ export interface LoginResponse {
   totalActivasHoy: number;
   proximasReservas: Reserva[];
 }
+
+export interface LoginDto {
+  email: string;
+  password: string;
+}

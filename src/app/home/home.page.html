@@ -1,119 +1,141 @@
 <ion-header mode="ios">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button menu="main-menu" style="color: #01907e;"></ion-menu-button>
+      <ion-menu-button menu="main-menu" color="primary"></ion-menu-button>
     </ion-buttons>
-
-    <ion-img src="assets/iconuts2.png" style="width: 20%; margin-left: 10px;"></ion-img>
+    <ion-img src="assets/iconuts2.png" class="logo"></ion-img>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="dashboard-page ion-padding" mode="ios">
-<div class="container">
-
-  <!-- WELCOME -->
-  <div class="welcome-section">
-    <h1>Bienvenido, <span>{{ nombre }}</span></h1>
-    <p>Resumen de tu actividad y accesos rápidos</p>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats-container">
+<ion-content class="dashboard-page" mode="ios">
+  <div class="container">
     
-    <ion-card class="stat-card">
-      <ion-icon name="calendar-outline"></ion-icon>
-      <div>
-        <h3>{{ totalReservas }}</h3>
-        <p>Total de reservas</p>
-      </div>
-    </ion-card>
+    <!-- Indicador offline (si existe el componente) -->
+    <!-- <app-offline-indicator></app-offline-indicator> -->
 
-    <ion-card class="stat-card">
-      <ion-icon name="time-outline"></ion-icon>
-      <div>
-        <h3>{{ totalActivasHoy }}</h3>
-        <p>Activas hoy</p>
-      </div>
-    </ion-card>
+    <!-- WELCOME SECTION -->
+    <div class="welcome-section">
+      <h1 class="welcome-title">Bienvenido, <span>{{ userName }}</span></h1>
+      <p class="welcome-subtitle">Resumen de tu actividad y accesos rápidos</p>
+    </div>
 
-    <!-- Aulas disponibles (opcional puedes poner un número real luego) -->
-    <ion-card class="stat-card">
-      <ion-icon name="school-outline"></ion-icon>
-      <div>
-        <h3>8</h3>
-        <p>Aulas disponibles</p>
-      </div>
-    </ion-card>
-  </div>
-
-  <!-- PROXIMAS RESERVAS -->
-  <div class="section-title">
-    <h2>Próximas reservas</h2>
-  </div>
-
-  <div class="next-bookings">
-
-    <ng-container *ngIf="proximas.length > 0; else noBookings">
-      <ion-card class="booking-card" *ngFor="let r of proximas">
-        <ion-icon name="business-outline"></ion-icon>
-
-        <div class="details">
-          <h3>Aula {{ r.aulaId }}</h3>
-          <p>
-            {{ r.fecha }} • {{ r.horaInicio }} - {{ r.horaFin }}
-          </p>
+    <!-- STATS CARDS -->
+    <div class="stats-container">
+      <ion-card class="stat-card">
+        <div class="stat-icon calendar-icon">
+          <ion-icon name="calendar-outline"></ion-icon>
         </div>
-
-        <ion-badge [color]="r.estado == 'Confirmada' ? 'success' : 'warning'">
-          {{ r.estado }}
-        </ion-badge>
+        <div class="stat-info">
+          <h3 class="stat-number">{{ totalReservas }}</h3>
+          <p class="stat-label">Total de reservas</p>
+        </div>
       </ion-card>
-    </ng-container>
 
-    <ng-template #noBookings>
-      <p style="opacity: .6; margin-left: 10px;">No tienes próximas reservas.</p>
-    </ng-template>
+      <ion-card class="stat-card">
+        <div class="stat-icon clock-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">{{ reservasActivas }}</h3>
+          <p class="stat-label">Activas hoy</p>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- PROXIMAS RESERVAS -->
+    <div class="section">
+      <h2 class="section-title">Próximas reservas</h2>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <p>Cargando reservas...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && proximasReservas.length === 0" class="no-reservas">
+        <ion-icon name="calendar-outline" color="medium"></ion-icon>
+        <p>No tienes próximas reservas.</p>
+      </div>
+
+      <!-- Lista de Reservas -->
+      <div class="proximas-reservas-list" *ngIf="!loading && proximasReservas.length > 0">
+        <ion-card 
+          class="reserva-card-proximas" 
+          *ngFor="let reserva of proximasReservas"
+          [class.status-confirmada]="reserva.estado?.toLowerCase() === 'confirmada'"
+          [class.status-pendiente]="reserva.estado?.toLowerCase() === 'pendiente'"
+        >
+          <div class="reserva-icon">
+            <ion-icon name="business-outline" color="primary"></ion-icon>
+          </div>
+          
+          <div class="reserva-content">
+            <h3 class="reserva-name">{{ reserva.aula?.nombre || reserva.motivo }}</h3>
+            <p class="reserva-datetime">
+              {{ getDayName(reserva.fecha) }}
+              {{ formatDate(reserva.fecha) }}
+              •
+              {{ formatTime(reserva.horaInicio) }} - {{ formatTime(reserva.horaFin) }}
+            </p>
+          </div>
+
+          <ion-badge 
+            class="reserva-badge"
+            [color]="reserva.estado?.toLowerCase() === 'confirmada' ? 'success' : 'warning'"
+          >
+            {{ reserva.estado }}
+          </ion-badge>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- ACCESOS RAPIDOS -->
+    <div class="section">
+      <h2 class="section-title">Accesos rápidos</h2>
+
+      <ion-grid class="quick-access-grid">
+        <ion-row>
+          <ion-col size="6">
+            <ion-card class="quick-access-card" button (click)="onNuevaReserva()">
+              <div class="quick-icon add-icon">
+                <ion-icon name="add-circle-outline"></ion-icon>
+              </div>
+              <p class="quick-label">Nueva reserva</p>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-card class="quick-access-card" button (click)="onHistorial()">
+              <div class="quick-icon history-icon">
+                <ion-icon name="time-outline"></ion-icon>
+              </div>
+              <p class="quick-label">Historial</p>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-card class="quick-access-card" button (click)="onPerfil()">
+              <div class="quick-icon profile-icon">
+                <ion-icon name="person-outline"></ion-icon>
+              </div>
+              <p class="quick-label">Perfil</p>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-card class="quick-access-card" button (click)="onLogout()">
+              <div class="quick-icon logout-icon">
+                <ion-icon name="log-out-outline"></ion-icon>
+              </div>
+              <p class="quick-label">Cerrar sesión</p>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
 
   </div>
-
-  <!-- QUICK ACTIONS -->
-  <div class="quick-actions">
-    <h2>Accesos rápidos</h2>
-
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/apartar">
-            <ion-icon name="add-circle-outline"></ion-icon>
-            <p>Nueva reserva</p>
-          </ion-card>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/historial">
-            <ion-icon name="time-outline"></ion-icon>
-            <p>Historial</p>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/perfil">
-            <ion-icon name="person-outline"></ion-icon>
-            <p>Perfil</p>
-          </ion-card>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/soporte">
-            <ion-icon name="help-circle-outline"></ion-icon>
-            <p>Soporte</p>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-
-</div>
 </ion-content>

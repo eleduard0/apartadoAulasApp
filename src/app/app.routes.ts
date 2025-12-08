@@ -29,4 +29,8 @@ export const routes: Routes = [
     path: 'apartar',
     loadComponent: () => import('./apartar/apartar.page').then( m => m.ApartarPage)
   },
+  {
+    path: 'historial',
+    loadComponent: () => import('./historial/historial.page').then( m => m.HistorialPage)
+  },
 ];

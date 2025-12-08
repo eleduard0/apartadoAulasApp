@@ -1,82 +1,244 @@
-<ion-header mode="ios">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" style="color: #01907e;"></ion-back-button>
+      <ion-back-button (click)="onBack()" defaultHref="/home" color="primary"></ion-back-button>
     </ion-buttons>
+    <ion-title color="primary">Nueva Reserva</ion-title>
+  </ion-toolbar>
 
-    <ion-title style="color: #01907e;">Nueva reserva</ion-title>
+  <!-- Progress Steps -->
+  <ion-toolbar>
+    <div class="progress-container">
+      <div class="progress-step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+        <div class="step-circle">1</div>
+        <span class="step-label">Aula</span>
+      </div>
+      <div class="progress-line" [class.active]="currentStep > 1"></div>
+      <div class="progress-step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+        <div class="step-circle">2</div>
+        <span class="step-label">Fecha</span>
+      </div>
+      <div class="progress-line" [class.active]="currentStep > 2"></div>
+      <div class="progress-step" [class.active]="currentStep >= 3" [class.completed]="currentStep > 3">
+        <div class="step-circle">3</div>
+        <span class="step-label">Horario</span>
+      </div>
+      <div class="progress-line" [class.active]="currentStep > 3"></div>
+      <div class="progress-step" [class.active]="currentStep >= 4">
+        <div class="step-circle">4</div>
+        <span class="step-label">Confirmar</span>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="reserva-page ion-padding" mode="ios">
-  <div class="container">
+<ion-content>
+  <!-- Banner de modo offline -->
+  <ion-chip *ngIf="!isOnline" color="warning" class="ion-margin">
+    <ion-icon name="cloud-offline-outline"></ion-icon>
+    <ion-label>Modo offline - Las reservas se sincronizarán cuando haya conexión</ion-label>
+  </ion-chip>
 
-    <h1 class="title">Generar nueva reserva</h1>
-    <p class="subtitle">Completa los siguientes datos para crear tu reserva</p>
+  <!-- Step 1: Seleccionar Aula -->
+  <div *ngIf="currentStep === 1">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Selecciona un aula</ion-card-title>
+      </ion-card-header>
+    </ion-card>
 
-    <form [formGroup]="reservaForm">
-      <ion-card class="form-card">
+    <ion-card *ngFor="let aula of aulas" [button]="true" (click)="onSelectAula(aula)" [disabled]="!aula.estatus">
+      <ion-card-content>
+        <div class="aula-card-content">
+          <ion-icon name="desktop-outline" size="large" color="primary"></ion-icon>
+          <div class="aula-info">
+            <h2>{{ aula.nombre }}</h2>
+            <p *ngIf="aula.descripcion">{{ aula.descripcion }}</p>
+            <div class="aula-capacidad">
+              <ion-icon name="people-outline" size="small"></ion-icon>
+              <span>Capacidad: {{ aula.capacidadEstudiantes }} estudiantes</span>
+            </div>
+          </div>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-        <!-- AULAS -->
+  <!-- Step 2: Seleccionar Fecha -->
+  <div *ngIf="currentStep === 2">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Selecciona la fecha</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <ion-item lines="none">
-          <ion-select 
-            formControlName="aulaId" 
-            interface="popover" 
-            placeholder="Aula">
-            <ion-select-option 
-              *ngFor="let aula of aulas" 
-              [value]="aula.id">
-              {{ aula.nombre }}
-            </ion-select-option>
-          </ion-select>
+          <ion-label position="stacked">Aula seleccionada</ion-label>
+          <ion-text color="primary">
+            <h2>{{ aulaSeleccionada?.nombre }}</h2>
+          </ion-text>
         </ion-item>
 
-        <!-- FECHA -->
-        <ion-item lines="none">
-          <ion-datetime 
-            formControlName="fecha" 
+        <ion-item>
+          <ion-label position="stacked">Fecha de reserva</ion-label>
+          <ion-datetime
             presentation="date"
-            prefer-wheel="false">
-          </ion-datetime>
+            [(ngModel)]="fechaSeleccionada"
+            (ionChange)="onFechaChange()"
+            [min]="fechaSeleccionada"
+          ></ion-datetime>
         </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-        <!-- HORA INICIO -->
+  <!-- Step 3: Seleccionar Horario -->
+  <div *ngIf="currentStep === 3">
+    <!-- Indicador de modo offline -->
+    <ion-card *ngIf="!isOnline" color="warning">
+      <ion-card-content>
+        <div class="offline-info">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <p>Modo offline - Mostrando horarios disponibles de 7:30 AM a 3:00 PM. La disponibilidad real se verificará al conectarse.</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Selecciona el horario</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <ion-item lines="none">
-          <ion-label position="floating">Hora inicio</ion-label>
-          <ion-datetime 
-            formControlName="horaInicio"
-            presentation="time">
-          </ion-datetime>
+          <ion-label>
+            <p>Aula: <strong>{{ aulaSeleccionada?.nombre }}</strong></p>
+            <p>Fecha: <strong>{{ fechaSeleccionada }}</strong></p>
+          </ion-label>
         </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-        <!-- HORA FIN -->
-        <ion-item lines="none">
-          <ion-label position="floating">Hora fin</ion-label>
-          <ion-datetime 
-            formControlName="horaFin"
-            presentation="time">
-          </ion-datetime>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let horario of disponibilidad">
+          <ion-card
+            [button]="horario.disponible"
+            (click)="onSelectHorario(horario)"
+            [class.selected]="horarioSeleccionado === horario"
+            [class.ocupado]="!horario.disponible"
+            [disabled]="!horario.disponible"
+          >
+            <ion-card-content>
+              <div class="horario-card-content">
+                <ion-icon name="time-outline" [color]="horario.disponible ? 'primary' : 'medium'"></ion-icon>
+                <div class="horario-info">
+                  <h3>{{ formatTime(horario.horaInicio) }} - {{ formatTime(horario.horaFin) }}</h3>
+                  <ion-badge [color]="horario.disponible ? 'success' : 'danger'">
+                    {{ horario.disponible ? 'Disponible' : 'Ocupado' }}
+                  </ion-badge>
+                </div>
+                <ion-icon *ngIf="horarioSeleccionado === horario" name="checkmark-circle" color="success"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Step 4: Confirmar Reserva -->
+  <div *ngIf="currentStep === 4">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Confirma tu reserva</ion-card-title>
+        <ion-card-subtitle>Resumen de tu reserva</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="desktop-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Aula</p>
+              <h2>{{ aulaSeleccionada?.nombre }}</h2>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Fecha</p>
+              <h2>{{ fechaSeleccionada }}</h2>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Horario</p>
+              <h2>{{ formatTime(horarioSeleccionado!.horaInicio) }} - {{ formatTime(horarioSeleccionado!.horaFin) }}</h2>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Motivo de la reserva *</ion-label>
+          <ion-textarea
+            [(ngModel)]="motivo"
+            placeholder="Describe el motivo de tu reserva..."
+            rows="4"
+            maxlength="500"
+          ></ion-textarea>
         </ion-item>
+        <ion-note color="medium">{{ motivo.length }}/500</ion-note>
+      </ion-card-content>
+    </ion-card>
 
-        <!-- MOTIVO -->
-        <ion-item lines="none">
-          <ion-label position="floating">Motivo</ion-label>
-          <ion-textarea 
-            formControlName="motivo"
-            auto-grow="true">
-          </ion-textarea>
-        </ion-item>
+    <ion-button
+      expand="block"
+      (click)="onConfirmarReserva()"
+      [disabled]="!isFormValid() || loading"
+      class="ion-margin"
+    >
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      Confirmar Reserva
+    </ion-button>
+  </div>
 
-      </ion-card>
-
-      <ion-button 
-        expand="block" 
-        class="btn-reservar"
-        (click)="crearReserva()"
-        [disabled]="reservaForm.invalid">
-        Crear reserva
-      </ion-button>
-    </form>
-
+  <!-- Reservas pendientes de sincronizar -->
+  <div *ngIf="pendingReservas.length > 0">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Reservas pendientes de sincronizar</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let reserva of pendingReservas">
+            <ion-label>
+              <h2>{{ reserva.aulaInfo?.nombre || 'Aula ' + reserva.aulaId }}</h2>
+              <p>{{ reserva.fecha }} - {{ formatTime(reserva.horaInicio) }} a {{ formatTime(reserva.horaFin) }}</p>
+              <p>{{ reserva.motivo }}</p>
+              <ion-badge [color]="reserva.syncStatus === 'pending' ? 'warning' : reserva.syncStatus === 'syncing' ? 'primary' : reserva.syncStatus === 'synced' ? 'success' : 'danger'">
+                <span *ngIf="reserva.syncStatus === 'pending'">⏳ Pendiente</span>
+                <span *ngIf="reserva.syncStatus === 'syncing'">🔄 Sincronizando...</span>
+                <span *ngIf="reserva.syncStatus === 'synced'">✅ Sincronizado</span>
+                <span *ngIf="reserva.syncStatus === 'error'">❌ Error</span>
+              </ion-badge>
+            </ion-label>
+            <ion-buttons slot="end">
+              <ion-button *ngIf="reserva.syncStatus === 'error' && isOnline" (click)="retryReserva(reserva)" color="primary">
+                <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="reserva.syncStatus !== 'synced'" (click)="deletePendingReserva(reserva.id)" color="danger">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

@@ -1,49 +1,173 @@
-.reserva-page {
-  --background: #e6f6f3;
+// Variables de color - Paleta actualizada
+$primary-color: #01907e;
+$primary-dark: #016a5b;
+$primary-light: #58c6b6;
+$background-soft: #e6f6f3;
+$text-dark: #1f2d29;
+
+// Progress Steps en el header
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: $background-soft;
 }
 
-.container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+
+  &.active {
+    opacity: 1;
+  }
+
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ion-color-medium);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+
+  &.active .step-circle {
+    background: $primary-color;
+  }
+
+  &.completed .step-circle {
+    background: $primary-light;
+  }
+
+  .step-label {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--ion-color-medium);
+  }
+
+  &.active .step-label {
+    color: $primary-color;
+    font-weight: 600;
+  }
 }
 
-.title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #016a5b;
+.progress-line {
+  height: 2px;
+  width: 40px;
+  background: var(--ion-color-medium);
+  margin: 0 4px 20px;
+  transition: background 0.3s;
+
+  &.active {
+    background: $primary-light;
+  }
 }
 
-.subtitle {
-  font-size: 14px;
-  color: #45534f;
-  margin-bottom: 16px;
+// Aula Card
+.aula-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .aula-info {
+    flex: 1;
+
+    h2 {
+      margin: 0 0 4px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: $text-dark;
+    }
+
+    p {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: var(--ion-color-medium);
+    }
+
+    .aula-capacidad {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      color: var(--ion-color-medium);
+    }
+  }
 }
 
-.form-card {
-  padding: 20px;
-  border-radius: 16px;
-  background: white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+// Horario Card
+.horario-card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .horario-info {
+    flex: 1;
+
+    h3 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: $text-dark;
+    }
+  }
 }
 
-ion-item {
-  margin-top: 12px;
-  --background: transparent;
-  --highlight-color-focused: #01907e;
+ion-card.selected {
+  border: 2px solid $primary-color;
+  box-shadow: 0 0 0 3px rgba(1, 144, 126, 0.15);
 }
 
-ion-label {
-  color: #45534f !important;
-  font-weight: 500;
+ion-card.ocupado {
+  opacity: 0.5;
+
+  ion-card-content {
+    background: var(--ion-color-light);
+  }
 }
 
-.btn-reservar {
-  margin-top: 25px;
-  height: 50px;
-  --background: #01907e;
-  --background-hover: #017060;
-  --border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
+// Offline info
+.offline-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  ion-icon {
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+  .progress-container {
+    padding: 12px 8px;
+  }
+
+  .progress-step .step-label {
+    font-size: 10px;
+  }
+
+  .progress-line {
+    width: 20px;
+  }
+
+  .step-circle {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 12px !important;
+  }
 }

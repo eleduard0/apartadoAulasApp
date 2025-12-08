@@ -6,3 +6,9 @@ export interface CreateSolicitudApartadoDto {
   usuarioId: number;
   aulaId: number;
 }
+
+export interface DisponibilidadHora {
+  horaInicio: string; // "07:30:00"
+  horaFin: string; // "08:30:00"
+  disponible: boolean;
+}

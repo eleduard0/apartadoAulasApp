@@ -1,33 +1,67 @@
+// Variables de color
+$primary-color: #01907e;
+$primary-dark: #016a5b;
+$primary-light: #58c6b6;
+$background-soft: #e6f6f3;
+$text-dark: #1f2d29;
+$text-medium: #45534f;
+
+// Background del contenido
 .dashboard-page {
-  --background: #e6f6f3;
+  --background: #{$background-soft};
 }
 
+// Logo en el header
+.logo {
+  width: 120px;
+  height: auto;
+  margin-left: 10px;
+}
+
+// Container principal
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+// Welcome Section
 .welcome-section {
   margin-top: 20px;
 
-  h1 {
+  .welcome-title {
     font-size: 24px;
     font-weight: 600;
-    color: #016a5b;
+    color: $primary-dark;
+    margin: 0 0 4px 0;
 
     span {
-      color: #01907e;
+      color: $primary-color;
     }
   }
 
-  p {
+  .welcome-subtitle {
     font-size: 14px;
-    color: #45534f;
-    margin-top: 4px;
+    color: $text-medium;
+    margin: 0;
   }
 }
 
+// Stats Container
 .stats-container {
   margin-top: 20px;
   display: flex;
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 5px;
+
+  // Ocultar scrollbar pero mantener funcionalidad
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   .stat-card {
     display: flex;
@@ -37,117 +71,300 @@
     min-width: 200px;
     border-radius: 16px;
     background: white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(1, 144, 126, 0.08);
+    margin: 0;
+    transition: transform 0.2s;
 
-    ion-icon {
-      font-size: 32px;
-      color: #01907e;
+    &:active {
+      transform: scale(0.98);
     }
 
-    h3 {
-      margin: 0;
-      font-size: 20px;
-      color: #1f2d29;
-      font-weight: bold;
+    .stat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(1, 144, 126, 0.1);
+
+      ion-icon {
+        font-size: 28px;
+        color: $primary-color;
+      }
     }
 
-    p {
-      margin: 0;
-      font-size: 12px;
-      color: #45534f;
-    }
-  }
-}
-
-.section-title {
-  margin-top: 25px;
-
-  h2 {
-    font-size: 18px;
-    color: #016a5b;
-    font-weight: bold;
-  }
-}
-
-.next-bookings {
-  margin-top: 10px;
-
-  .booking-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
-
-    ion-icon {
-      font-size: 30px;
-      color: #01907e;
-    }
-
-    .details {
+    .stat-info {
       flex: 1;
 
-      h3 {
+      .stat-number {
+        margin: 0 0 2px 0;
+        font-size: 24px;
+        color: $text-dark;
+        font-weight: 700;
+      }
+
+      .stat-label {
         margin: 0;
-        font-size: 16px;
-        color: #1f2d29;
-      }
-
-      p {
-        margin: 3px 0 0;
         font-size: 12px;
-        color: #45534f;
+        color: $text-medium;
+        font-weight: 500;
       }
-    }
-
-    ion-badge {
-      font-size: 10px;
-      padding: 6px 8px;
-      border-radius: 6px;
     }
   }
 }
 
-.quick-actions {
-  margin-top: 25px;
+// Section
+.section {
+  margin-top: 30px;
 
-  h2 {
+  .section-title {
     font-size: 18px;
-    color: #016a5b;
-    font-weight: bold;
-    margin-bottom: 10px;
+    color: $primary-dark;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+  }
+}
+
+// Loading State
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 12px;
+
+  ion-spinner {
+    width: 32px;
+    height: 32px;
   }
 
-  .action-card {
-    text-align: center;
-    padding: 20px 10px;
-    border-radius: 16px;
-    background: white;
-    //transition: 0.2s;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: $text-medium;
+  }
+}
+
+// Empty State
+.no-reservas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 3px 6px rgba(1, 144, 126, 0.06);
+
+  ion-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: $text-medium;
+  }
+}
+
+// Próximas Reservas List
+.proximas-reservas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reserva-card-proximas {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin: 0;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 3px 6px rgba(1, 144, 126, 0.08);
+  border-left: 4px solid transparent;
+  transition: all 0.2s;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.status-confirmada {
+    border-left-color: #4caf50;
+  }
+
+  &.status-pendiente {
+    border-left-color: #ff9800;
+  }
+
+  .reserva-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(1, 144, 126, 0.1);
 
     ion-icon {
-      font-size: 40px;
-      color: #01907e;
-      margin-bottom: 8px;
+      font-size: 24px;
+    }
+  }
+
+  .reserva-content {
+    flex: 1;
+    min-width: 0;
+
+    .reserva-name {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      color: $text-dark;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    p {
-      font-size: 13px;
-      color: #45534f;
+    .reserva-datetime {
       margin: 0;
-      font-weight: 500;
+      font-size: 12px;
+      color: $text-medium;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
 
-   
+  .reserva-badge {
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    white-space: nowrap;
   }
 }
-.container {
-  width: 100%;
-  max-width: 900px; /* Ajustable */
-  margin: 0 auto;
-  padding: 0 16px; /* Para que no pegue a los bordes */
+
+// Quick Access Grid
+.quick-access-grid {
+  padding: 0;
+
+  ion-row {
+    margin-bottom: 12px;
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
+  }
+
+  .quick-access-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 10px;
+    margin: 0;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 3px 6px rgba(1, 144, 126, 0.08);
+    transition: all 0.2s;
+    cursor: pointer;
+    height: 120px;
+
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 4px rgba(1, 144, 126, 0.12);
+    }
+
+    .quick-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      margin: 0 auto 12px auto;
+      transition: all 0.2s;
+
+      ion-icon {
+        font-size: 32px;
+        color: $primary-color;
+        display: block;
+        margin: 0 auto;
+      }
+
+      &.add-icon {
+        background: rgba(1, 144, 126, 0.1);
+      }
+
+      &.history-icon {
+        background: rgba(1, 144, 126, 0.1);
+      }
+
+      &.profile-icon {
+        background: rgba(1, 144, 126, 0.1);
+      }
+
+      &.logout-icon {
+        background: rgba(1, 144, 126, 0.1);
+      }
+    }
+
+    .quick-label {
+      margin: 0;
+      font-size: 13px;
+      color: $text-medium;
+      font-weight: 600;
+      text-align: center;
+    }
+  }
+}
+
+// Responsive
+@media (min-width: 768px) {
+  .stats-container {
+    justify-content: center;
+  }
+
+  .quick-access-grid {
+    ion-col {
+      padding: 6px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .welcome-section {
+    .welcome-title {
+      font-size: 20px;
+    }
+  }
+
+  .stat-card {
+    min-width: 180px !important;
+    padding: 14px !important;
+
+    .stat-info .stat-number {
+      font-size: 20px !important;
+    }
+  }
+
+  .quick-access-card {
+    height: 100px !important;
+
+    .quick-icon {
+      width: 48px !important;
+      height: 48px !important;
+
+      ion-icon {
+        font-size: 28px !important;
+      }
+    }
+
+    .quick-label {
+      font-size: 12px !important;
+    }
+  }
 }

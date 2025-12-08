@@ -1,0 +1,154 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="onBack()" defaultHref="/home" color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Error Message -->
+  <ion-card *ngIf="error" color="danger">
+    <ion-card-content>
+      <div class="error-content">
+        <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+        <p>{{ error }}</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando historial...</p>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!loading && !error">
+    <!-- Stats Section -->
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <div class="stat-content">
+          <h1 class="stat-number">{{ totalReservas }}</h1>
+          <p class="stat-label">
+            {{ filtroEstado ? "Reservas " + filtroEstado : "Total de reservas" }}
+          </p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Filtros -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Filtros</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label position="stacked">Filtrar por estado</ion-label>
+          <ion-select 
+            [(ngModel)]="filtroEstado" 
+            placeholder="Todas"
+            interface="popover"
+          >
+            <ion-select-option value="">Todas</ion-select-option>
+            <ion-select-option *ngFor="let estado of estados" [value]="estado">
+              {{ estado }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-button 
+          *ngIf="filtroEstado" 
+          (click)="clearFilter()" 
+          expand="block" 
+          fill="clear"
+          size="small"
+        >
+          <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+          Limpiar filtro
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Reservas List -->
+    <div class="reservas-section">
+      <!-- Empty State -->
+      <ion-card *ngIf="reservasFiltradas.length === 0" class="empty-state">
+        <ion-card-content>
+          <ion-icon name="calendar-outline" size="large" color="medium"></ion-icon>
+          <h3>No hay reservas</h3>
+          <p>
+            {{ filtroEstado 
+              ? "No tienes reservas " + filtroEstado 
+              : "No tienes reservas en tu historial" 
+            }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Reservas Cards -->
+      <ion-card 
+        *ngFor="let reserva of reservasFiltradas" 
+        [ngClass]="getStatusClass(reserva.estado)"
+        class="reserva-card"
+      >
+        <ion-card-header>
+          <div class="card-header-content">
+            <div>
+              <ion-card-title>{{ reserva.aula.nombre }}</ion-card-title>
+              <ion-card-subtitle>{{ reserva.motivo }}</ion-card-subtitle>
+            </div>
+            <ion-chip [color]="getStatusColor(reserva.estado)">
+              <ion-label>
+                <span class="status-icon">{{ getStatusIcon(reserva.estado) }}</span>
+                {{ reserva.estado }}
+              </ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-list lines="none">
+            <!-- Fecha -->
+            <ion-item>
+              <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>
+                <p>Fecha</p>
+                <h3>{{ getDayName(reserva.fecha) | titlecase }} {{ formatDate(reserva.fecha) }}</h3>
+              </ion-label>
+            </ion-item>
+
+            <!-- Horario -->
+            <ion-item>
+              <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>
+                <p>Horario</p>
+                <h3>{{ formatTime(reserva.horaInicio) }} - {{ formatTime(reserva.horaFin) }}</h3>
+              </ion-label>
+            </ion-item>
+
+            <!-- Capacidad -->
+            <ion-item>
+              <ion-icon name="people-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>
+                <p>Capacidad</p>
+                <h3>{{ reserva.aula.capacidadEstudiantes }} estudiantes</h3>
+              </ion-label>
+            </ion-item>
+
+            <!-- Fecha de Solicitud -->
+            <ion-item>
+              <ion-icon name="document-text-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>
+                <p>Solicitada el</p>
+                <h3>{{ formatDate(reserva.fechaSolicitud) }}</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

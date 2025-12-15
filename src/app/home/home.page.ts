@@ -81,7 +81,7 @@ export class HomePage implements OnInit, OnDestroy {
    * Navegar a perfil
    */
   onPerfil(): void {
-    console.log('Perfil clicked');
+    this.navCtrl.navigateForward('/perfil');
     // TODO: Navegar a la página de perfil
     // this.navCtrl.navigateForward('/perfil');
   }

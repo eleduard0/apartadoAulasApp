@@ -3,15 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, firstValueFrom, Observable, tap } from 'rxjs';
 import { LoginResponse, LoginDto } from '../models/login-response';
+import { RegisterDto } from '../models/register.interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'https://apartadoaulasapi-1.onrender.com/api/Auth'; // 🔥 Cambia aquí tu URL base
+  private apiUrl = 'https://apartadoaulasapi-1.onrender.com/api/Auth';
 
-   private currentUserSubject: BehaviorSubject<LoginResponse | null>;
+  private currentUserSubject: BehaviorSubject<LoginResponse | null>;
   public currentUser: Observable<LoginResponse | null>;
 
   constructor(
@@ -39,7 +40,6 @@ export class AuthService {
   public get userId(): number | null {
     return this.currentUserValue?.idUsuario || null;
   }
-  
 
   /**
    * Verifica si hay un usuario logueado
@@ -53,44 +53,65 @@ export class AuthService {
    * POST /api/Auth/Login
    */
   login(email: string, password: string): Observable<LoginResponse> {
-  const loginDto: LoginDto = { email, password };
+    const loginDto: LoginDto = { email, password };
 
-  return this.http.post<LoginResponse>(`${this.apiUrl}/Login`, loginDto).pipe(
-    tap(response => {
-      // Guardar usuario en localStorage
-      localStorage.setItem('currentUser', JSON.stringify(response));
+    return this.http.post<LoginResponse>(`${this.apiUrl}/Login`, loginDto).pipe(
+      tap(response => {
+        // Guardar usuario en localStorage
+        localStorage.setItem('currentUser', JSON.stringify(response));
 
-      // Actualizar subject
-      this.currentUserSubject.next(response);
-    })
-  );
-}
+        // Actualizar subject
+        this.currentUserSubject.next(response);
+      })
+    );
+  }
 
+  /**
+   * Registro de nuevo usuario
+   * POST /api/Auth/Register
+   */
+  register(registerDto: RegisterDto): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/Register`, registerDto).pipe(
+      tap(response => {
+        // Guardar usuario en localStorage (login automático)
+        localStorage.setItem('currentUser', JSON.stringify(response));
+
+        // Actualizar subject
+        this.currentUserSubject.next(response);
+
+        console.log('Usuario registrado y logueado:', response);
+      })
+    );
+  }
+
+  /**
+   * Refrescar información del usuario
+   */
   async refreshUser(): Promise<void> {
-  const userId = this.userId;
-  if (!userId) return Promise.resolve();
+    const userId = this.userId;
+    if (!userId) return Promise.resolve();
 
-  return firstValueFrom(
-    this.http.get<LoginResponse>(`${this.apiUrl}/GetInfoUser?id=${userId}`)
-  )
-    .then(userInfo => {
-      // Solo refrescamos TotalReservas, TotalActivasHoy y ProximasReservas
-      const current = this.currentUserValue;
+    return firstValueFrom(
+      this.http.get<LoginResponse>(`${this.apiUrl}/GetInfoUser?id=${userId}`)
+    )
+      .then(userInfo => {
+        // Solo refrescamos TotalReservas, TotalActivasHoy y ProximasReservas
+        const current = this.currentUserValue;
 
-      if (current) {
-        current.totalReservas = userInfo.totalReservas;
-        current.totalActivasHoy = userInfo.totalActivasHoy;
-        current.proximasReservas = userInfo.proximasReservas;
-      }
+        if (current) {
+          current.totalReservas = userInfo.totalReservas;
+          current.totalActivasHoy = userInfo.totalActivasHoy;
+          current.proximasReservas = userInfo.proximasReservas;
+        }
 
-      // Guardar info actualizada
-      localStorage.setItem('currentUser', JSON.stringify(current));
-      this.currentUserSubject.next(current!);
-    })
-    .catch(err => {
-      console.error("Error refrescando usuario:", err);
-    });
-}
+        // Guardar info actualizada
+        localStorage.setItem('currentUser', JSON.stringify(current));
+        this.currentUserSubject.next(current!);
+      })
+      .catch(err => {
+        console.error("Error refrescando usuario:", err);
+      });
+  }
 
   /**
    * Logout de usuario

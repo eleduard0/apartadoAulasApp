@@ -1,0 +1,152 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="onBack()" defaultHref="/home" color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Mi perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando perfil...</p>
+  </div>
+
+   <!-- Content -->
+  <div *ngIf="!loading && usuario" class="profile-content">
+
+    <!-- Avatar y Info Principal -->
+    <ion-card class="profile-header-card">
+      <ion-card-content>
+        <div class="avatar-section">
+          <div class="avatar">
+            <span class="avatar-initials">{{ getInitials() }}</span>
+          </div>
+          <h2 class="user-name">{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+          <p class="user-email">{{ usuario.email }}</p>
+          <ion-chip *ngIf="usuario.rol" [color]="getRolColor(usuario.rol.clave)">
+            <ion-icon [name]="getRolIcon(usuario.rol.clave)"></ion-icon>
+            <ion-label>{{ usuario.rol.nombre }}</ion-label>
+          </ion-chip>
+          <ion-chip *ngIf="!usuario.rol" color="medium">
+            <ion-icon name="person-circle"></ion-icon>
+            <ion-label>Usuario</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información del Usuario -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Información Personal</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Nombre completo</p>
+              <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Correo electrónico</p>
+              <h3>{{ usuario.email }}</h3>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Miembro desde</p>
+              <h3>{{ formatDate(usuario.fechaRegistro) }}</h3>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="shield-checkmark-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p>Estado</p>
+              <h3>
+                <ion-badge [color]="usuario.estatus ? 'success' : 'danger'">
+                  {{ usuario.estatus ? 'Activo' : 'Inactivo' }}
+                </ion-badge>
+              </h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Estadísticas -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Estadísticas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <ion-icon name="calendar-outline" color="primary"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ stats.totalReservas }}</h3>
+              <p>Reservas totales</p>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <ion-icon name="time-outline" color="success"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ stats.reservasActivas }}</h3>
+              <p>Reservas activas</p>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Acciones -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Acciones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item button (click)="openEditProfile()">
+            <ion-icon name="create-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>Editar perfil</h3>
+              <p>Actualiza tu información personal</p>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          </ion-item>
+
+          <ion-item button (click)="openChangePassword()">
+            <ion-icon name="lock-closed-outline" slot="start" color="warning"></ion-icon>
+            <ion-label>
+              <h3>Cambiar contraseña</h3>
+              <p>Actualiza tu contraseña de acceso</p>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          </ion-item>
+
+          <ion-item button (click)="logout()">
+            <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
+            <ion-label>
+              <h3>Cerrar sesión</h3>
+              <p>Salir de la aplicación</p>
+            </ion-label>
+            <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

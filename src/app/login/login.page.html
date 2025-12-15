@@ -35,18 +35,20 @@
             expand="block"
             shape="round"
             class="login-btn"
-            type="submit">
+            type="submit"
+            [disabled]="loading">
             {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
           </ion-button>
 
-          <!-- <ion-button
+          <ion-button
             expand="block"
             fill="outline"
             shape="round"
             class="register-btn"
-            routerLink="/register">
+            routerLink="/register"
+            [disabled]="loading">
             Registrarse
-          </ion-button> -->
+          </ion-button>
 
           <div class="divider-section">
             <p>o iniciar sesión con:</p>

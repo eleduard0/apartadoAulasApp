@@ -8,8 +8,8 @@ import { Usuario, UpdateUserDto, ChangePasswordDto } from '../models/perfil.inte
 })
 export class UsuarioService {
 
-  private apiUrl = 'https://localhost:44333/api/Usuario';
-  private authUrl = 'https://localhost:44333/api/Auth';
+  private apiUrl = 'https://apartadoaulasapi-1.onrender.com/api/Usuario';
+  private authUrl = 'https://apartadoaulasapi-1.onrender.com/api/Auth';
 
   constructor(private http: HttpClient) {}
 
